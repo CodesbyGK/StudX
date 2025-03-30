@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudX</title>
+    <link rel="icon" href="Images/logo1.png">
+     <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Dancing+Script:wght@700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Global Styling */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    h1 {
+        font-family: 'Times New Roman', serif;
+        font-size: 3rem; 
+        color: #000000; 
+  text-align: center; 
+  text-transform: capitalize; 
+  letter-spacing: 1px; 
+  margin-bottom: 30px; 
+  line-height: 1.5; 
+
+    }
+
+    h3 {
+      color: #495057;
+    }
+
+    .form-control {
+      border-radius: 5px;
+      padding: 10px;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-danger {
+      font-size: 0.9rem;
+    }
+
+    .list-group-item {
+      border: none;
+      margin-bottom: 10px;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-image {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+    }
+
+    #paymentForm {
+      padding: 20px;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <div class="d-flex align-items-center justify-content-between mb-5">
+      <h1 class="checkout-title">Checkout</h1>
+      <a href="index.html" class="btn btn-secondary" style="font-size: 1rem; padding: 10px 20px; border-radius: 5px;">Home</a>
+    </div>
+    <!-- Compact Section: Shipping and Order Summary Side by Side -->
+    <div class="row">
+      <!-- Shipping Details -->
+      <div class="col-md-6">
+        <h3>Shipping Details</h3>
+        <form style="background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+          <div class="form-group mb-3">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" class="form-control" placeholder="First  Last" required />
+          </div>
+          <div class="form-group mb-3">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" class="form-control" placeholder="9999999999" required />
+          </div>
+          <div class="form-group mb-3">
+            <label for="address">Address</label>
+            <input type="text" id="address" class="form-control" placeholder="Flat No. / Area / Landmark" required />
+          </div>
+          <div class="form-group mb-3">
+            <label for="city">City</label>
+            <input type="text" id="city" class="form-control" placeholder="City Name" required />
+          </div>
+          <div class="form-group mb-3">
+            <label for="postalCode">Postal Code</label>
+            <input type="text" id="postalCode" class="form-control" placeholder="123456" required />
+          </div>
+          <div class="form-group mb-3">
+            <label for="instructions">Special Delivery Instructions</label>
+            <textarea id="instructions" class="form-control" rows="3" placeholder="e.g., Leave package at the front door."></textarea>
+          </div>
+        </form>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="col-md-6">
+        <h3>Order Summary</h3>
+        <ul class="list-group" id="cart-container"> 
+        </ul>
+        <div class="form-group">
+          <label for="discountInput">Have a discount code?</label>
+          <input type="text" id="discountInput" class="form-control" placeholder="Enter code" />
+          <button id="applyDiscountBtn" class="btn btn-primary mt-2">Apply</button>
+          <p id="cart-total" style="text-align: right; font-weight: bold; font-size: 1rem; margin-top: 10px; background-color: #d5d1c3; padding: 10px; border-radius: 5px;">Total: Rs 0</p>
+        </div>
+        <div class="text-center mt-4">
+            <img src="Images/payment-methods.jpg" alt="Payment Methods" class="img-fluid" style="max-width: 100%; height: auto;" />
+          </div>      
+      </div>
+    </div>
+
+    <!-- Payment Section -->
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <h3>Payment Information</h3>
+        <form id="paymentForm">
+          <div class="form-group mb-3">
+            <label for="paymentMethod">Select Payment Method:</label>
+            <div>
+              <input type="radio" name="paymentMethod" value="card" checked /> Credit/Debit Card &nbsp;&nbsp;&nbsp;
+              <input type="radio" name="paymentMethod" value="paypal" /> PayPal &nbsp;&nbsp;&nbsp;
+              <input type="radio" name="paymentMethod" value="googlePay" /> UPI
+            </div>
+          </div>
+
+          <!-- Credit/Debit Card Section -->
+          <div id="cardDetails">
+            <div class="form-group mb-3">
+              <label for="cardName">Name on Card</label>
+              <input type="text" id="cardName" class="form-control" placeholder="John Doe" />
+            </div>
+            <div class="form-group mb-3">
+              <label for="cardNumber">Card Number</label>
+              <input type="text" id="cardNumber" class="form-control" placeholder="1234 5678 9012 3456" />
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6 mb-3">
+                <label for="expiryDate">Expiry Date</label>
+                <input type="text" id="expiryDate" class="form-control" placeholder="MM/YY" />
+              </div>
+              <div class="form-group col-md-6 mb-3">
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" class="form-control" placeholder="123" />
+              </div>
+            </div>
+          </div>
+
+          <!-- PayPal Section -->
+          <div id="paypalDetails">
+            <div class="form-group mb-3">
+              <label for="paypalEmail">PayPal Email</label>
+              <input type="email" id="paypalEmail" class="form-control" placeholder="example@paypal.com" />
+            </div>
+          </div>
+
+          <!-- Google Pay Section -->
+          <div id="googlePayDetails">
+            <label for="gpay">UPI ID</label>
+            <input type="email" id="gpay" class="form-control" placeholder="abc@oksbi" />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block mt-3">Place Order</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+  <script>
+    const paymentOptions = document.getElementsByName("paymentMethod");
+    const cardDetails = document.getElementById("cardDetails");
+    const paypalDetails = document.getElementById("paypalDetails");
+    const googlePayDetails = document.getElementById("googlePayDetails");
+
+    paymentOptions.forEach(option => {
+      option.addEventListener("change", () => {
+        cardDetails.style.display = option.value === "card" ? "block" : "none";
+        paypalDetails.style.display = option.value === "paypal" ? "block" : "none";
+        googlePayDetails.style.display = option.value === "googlePay" ? "block" : "none";
+      });
+    });
+
+    document.getElementById("paymentForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("Order placed successfully!");
+    });
+
+    //add to cart
+  // Retrieve cart from local storage
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const orderSummary = document.getElementById('cart-container'); // Reference to the cart summary section
+
+  // Render Cart Items
+  function renderCart() {
+    orderSummary.innerHTML = ''; // Clear previous content
+    let total = 0;
+
+    if (cart.length === 0) {
+      orderSummary.innerHTML = '<li class="list-group-item">Your cart is empty.</li>';
+    } else {
+      cart.forEach((item, index) => {
+        const listItem = document.createElement('li');
+        listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+        listItem.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px;" />
+          <span>${item.name}</span>
+          <span class="badge badge-primary badge-pill">Rs ${item.price}</span>
+          <button class="btn btn-danger btn-sm remove-btn" data-index="${index}">Remove</button>
+        `;
+        orderSummary.appendChild(listItem);
+        total += item.price;
+      });
+
+      // Add Total Amount
+      const totalItem = document.createElement('li');
+      totalItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+      totalItem.innerHTML = `<strong>Total</strong> <strong>Rs ${total}</strong>`;
+      orderSummary.appendChild(totalItem);
+    }
+
+    // Attach Event Listeners to Remove Buttons
+    const removeButtons = document.querySelectorAll('.remove-btn');
+    removeButtons.forEach((button) => {
+      button.addEventListener('click', removeItem);
+    });
+  }
+
+  // Remove Item from Cart
+  function removeItem(event) {
+    const itemIndex = event.target.dataset.index;
+    cart.splice(itemIndex, 1); // Remove item from cart array
+    localStorage.setItem('cart', JSON.stringify(cart)); // Update local storage
+    renderCart(); // Re-render cart
+  }
+
+  // Handle Payment Form Submission
+  document.getElementById('paymentForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // Retrieve Shipping and Payment Details
+    const shippingDetails = {
+      name: document.getElementById('fullName').value,
+      phone: document.getElementById('phone').value,
+      address: document.getElementById('address').value,
+      city: document.getElementById('city').value,
+      postalCode: document.getElementById('postalCode').value,
+      country: document.getElementById('country').value,
+      instructions: document.getElementById('instructions').value,
+    };
+
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+    // Combine the order details
+    const order = {
+      cart: cart,
+      shippingDetails: shippingDetails,
+      paymentMethod: paymentMethod,
+    };
+
+    console.log('Order placed:', order); // Log for debugging
+    alert('Order placed successfully!');
+
+    // Optionally clear the cart after order placement
+    localStorage.removeItem('cart');
+    renderCart(); // Refresh the cart display
+  });
+
+  // Initialize Page
+  renderCart();
+
+ // Example discount code implementation
+const discountCode = 'STUDX25'; // Define your discount code
+const discountPercentage = 25; // Define the discount percentage
+
+// Add Event Listener to "Apply Discount" Button
+document.getElementById('applyDiscountBtn').addEventListener('click', function () {
+  applyDiscount(discountCode);
+});
+
+// Function to Apply Discount Code
+function applyDiscount(code) {
+  const enteredCode = document.getElementById('discountInput').value; // Get the user's input
+  let totalAmount = cart.reduce((acc, item) => acc + item.price, 0); // Calculate total cart amount
+  
+  if (enteredCode === code) {
+    const discountAmount = (totalAmount * discountPercentage) / 100; // Calculate the discount
+    const discountedTotal = totalAmount - discountAmount; // Apply the discount
+    updateCartTotal(discountedTotal); // Update the displayed total
+    alert(`Discount applied! You saved Rs ${discountAmount}. Your new total is Rs ${discountedTotal}`);
+  } else {
+    alert('Invalid discount code! Please try again.');
+  }
+}
+
+// Function to Update the Total Display
+function updateCartTotal(newTotal) {
+  const totalElement = document.getElementById('cart-total'); // Assume an element for total display
+  totalElement.innerHTML = `Total: Rs ${newTotal}`;
+}
+
+// Initial Render of Cart
+function renderCart() {
+  orderSummary.innerHTML = ''; // Clear previous content
+  let total = 0;
+
+  if (cart.length === 0) {
+    orderSummary.innerHTML = '<li class="list-group-item">Your cart is empty.</li>';
+  } else {
+    cart.forEach((item, index) => {
+      const listItem = document.createElement('li');
+      listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+      listItem.innerHTML = `
+        <img src="${item.image}" alt="${item.name}" style="width: 50px; height: 50px;" />
+        <span>${item.name}</span>
+        <span class="badge badge-primary badge-pill">Rs ${item.price}</span>
+        <button class="btn btn-danger btn-sm remove-btn" data-index="${index}">Remove</button>
+      `;
+      orderSummary.appendChild(listItem);
+      total += item.price;
+    });
+
+    // Add Total Amount
+    const totalItem = document.createElement('li');
+    totalItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+    totalItem.innerHTML = `<strong>Total</strong> <strong>Rs ${total}</strong>`;
+    orderSummary.appendChild(totalItem);
+
+    updateCartTotal(total); // Update the displayed total
+  }
+
+  // Attach Event Listeners to Remove Buttons
+  const removeButtons = document.querySelectorAll('.remove-btn');
+  removeButtons.forEach((button) => {
+    button.addEventListener('click', removeItem);
+  });
+}
+
+</script>
+</body>
+</html>
